@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  recepcionista
+  admin
+}
+
+model Convidados {
+  id               String @id @default(ulid())
+  nome             String
+  sobrenome        String
+  cpf              String @unique
+  telefone         String
+  email            String @unique
+  numero_mesa      Int
+  presenca         Boolean @default(false)
+}
+
+model Usuario {
+  id              String @id @default(ulid())
+  nome            String
+  cpf             String @unique
+  email           String @unique
+  senha           String
+  role            Role
+}
