@@ -31,31 +31,23 @@ export function DialogAtualizar({ id, dados }: { id: string, dados: FormData }) 
     const { register, handleSubmit } = useForm<FormData>({ defaultValues: dados })
     async function onSubmit(formData: FormData) {
         const result = await atualiarUsuario(id, formData)
-        if (result.sucess === false) {
-            toast.error(result.mensagem)
+        if (result.success === false) {
+            toast.error(JSON.parse(result.mensagem)[0].message)
             return
         }
         toast.success("Usuário atualizado.")
         router.refresh()
     }
 
-    const role = [
-        "Admin",
-        "Recepcionista"
-    ]
-
     return (
         <Dialog>
-            <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogTrigger asChild>
-                    <Button variant="outline" className="bg-blue-800">Editar</Button>
+                    <Button variant="outline" size="sm" className="bg-blue-800">Editar</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-sm">
-                    <DialogHeader>
+            <DialogContent className="sm:max-w-sm">
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <DialogHeader>
                         <DialogTitle>Preenche os campos</DialogTitle>
-                        <DialogDescription>
-                            Preenche os campos para poder concluir
-                        </DialogDescription>
                     </DialogHeader>
                     <FieldGroup>
                         <Field>
@@ -74,19 +66,10 @@ export function DialogAtualizar({ id, dados }: { id: string, dados: FormData }) 
                             <Label>Senha</Label>
                             <Input  {...register("senha")} />
                         </Field>
-                        <Combobox items={role}>
-                            <ComboboxInput placeholder="Selecione o role" {...register("role")} />
-                            <ComboboxContent>
-                                <ComboboxEmpty>Esse role não existe.</ComboboxEmpty>
-                                <ComboboxList>
-                                    {(item) => (
-                                        <ComboboxItem key={item} value={item}>
-                                            {item}
-                                        </ComboboxItem>
-                                    )}
-                                </ComboboxList>
-                            </ComboboxContent>
-                        </Combobox>
+                        <Field>
+                            <Label>Role</Label>
+                            <Input  {...register("role")} />
+                        </Field>
                     </FieldGroup>
                     <DialogFooter>
                         <DialogClose asChild>
@@ -94,8 +77,8 @@ export function DialogAtualizar({ id, dados }: { id: string, dados: FormData }) 
                         </DialogClose>
                         <Button type="submit">Atualizar</Button>
                     </DialogFooter>
+                    </form>  
                 </DialogContent>
-            </form>
         </Dialog>
     )
 }

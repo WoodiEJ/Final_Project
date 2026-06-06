@@ -11,9 +11,8 @@ const schema = z.object({
     role: z.enum(["admin", "recepcionista"])
 })
 
-export async function dadosUsuario() {
+export async function dadosUsuario(id: string) {
     const cookieStore = await cookies()
-    const id = cookieStore.get("id")?.value
     const token = cookieStore.get("token")?.value
 
     if (!id) return null
@@ -140,4 +139,13 @@ export async function criarUsuario(formData: {
         return {success: false, mensagem: data.mensagem}
     }
     return data.mensagem
+}
+
+export async function usuarioLogado() {
+    const cookieStore = await cookies()
+    const id = cookieStore.get("id")?.value
+    const role = cookieStore.get("role")?.value
+
+    const usuario = { id, role }
+    return usuario
 }

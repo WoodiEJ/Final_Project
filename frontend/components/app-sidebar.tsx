@@ -1,4 +1,4 @@
-import { dadosUsuario } from "@/actions/usuario"
+import { dadosUsuario, usuarioLogado } from "@/actions/usuario"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
@@ -16,7 +16,7 @@ const navRecep = [
 ]
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const usuario = await dadosUsuario()
+  const usuario = await usuarioLogado()
   const navMain = usuario?.role === "admin" ? navAdmin : navRecep
 
   return (
