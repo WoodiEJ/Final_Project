@@ -9,7 +9,7 @@ import { DialogAtualizar } from "./dialog-form"
 import { LuEye, LuTrash } from "react-icons/lu"
 import { Check, Eye } from "lucide-react"
 import { checkInConvidado, deletarConvidado } from "@/actions/convidados"
-import { DialogAtualizarConvidado } from "./dialog-put-user"
+import { DialogAtualizarConvidado } from "./dialog-put-convit"
 
 
 type Convidados = {
@@ -47,12 +47,21 @@ export function AcoesConvidado({ id }: { id: string }) {
         router.refresh()
     }
 
+    async function verConvidado() {
+        const usuario = await usuarioLogado()
+        if (usuario.role === "admin") {
+            router.push(`/admin/convidados/${id}`)
+        } else {
+            router.push(`/recepcionista/convidados/${id}`)
+        }
+    }
+
     return (
         <div className="flex gap-2">
             <Button size="sm" variant="outline" onClick={checkIn}>
                 <Check />
             </Button>
-            <Button size="sm" variant="outline">
+            <Button size="sm" variant="outline" onClick={verConvidado}>
                 <Eye />
             </Button>
             <Button variant="destructive" size="sm" onClick={deletar}>

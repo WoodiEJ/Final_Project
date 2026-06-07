@@ -60,6 +60,11 @@ export async function atualizarConvidado(
 ) {
     const cookieStore = await cookies()
     const token = cookieStore.get("token")?.value
+    const role = cookieStore.get("role")?.value
+
+    if (role !== "admin") {
+        return { success: false, mensagem: "Acesso negado" }
+    }
 
     const res = await fetch(`http://localhost:3001/convidados/${id}`, {
         method: "PUT",
@@ -141,5 +146,5 @@ export async function dadosConvidado(id: string) {
     })
 
     const data = await result.json()
-    return data.convidados
+    return data.convidado
 }

@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { criarUsuario } from "@/actions/usuario"
+import { criarUsuario, usuarioLogado } from "@/actions/usuario"
 import { toast } from "sonner"
 import { registrarConvidado } from "@/actions/convidados"
 
@@ -33,13 +33,16 @@ export function RegistrarConvidado() {
     const { register, handleSubmit } = useForm<FormData>()
     async function onSubmit(dados: FormData) {
         const result = await registrarConvidado(dados)
+        const usuario = await usuarioLogado()
         if (result.success === false) {
-            toast.error(JSON.parse(result.mensagem)[0].message)
+            toast.error(result.mensagem)
             return
+        }
+        if (usuario.role !== "admin") {
+            return { success: false, mensagem: "Acesso negado. Apenas administradores." }
         }
         toast.success("Convidado registrado com sucesso.")
         router.refresh()
-        router.push("/admin/usuarios")
     }
 
     return (
@@ -75,7 +78,7 @@ export function RegistrarConvidado() {
                         </Field>
                         <Field>
                             <Label>Numero Mesa</Label>
-                            <Input {...register("nome")} />
+                            <Input {...register("numero_mesa", { valueAsNumber: true })} />
                         </Field>
                     </FieldGroup>
                     <DialogFooter className="mt-2 gap-2">

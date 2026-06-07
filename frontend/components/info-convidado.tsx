@@ -5,6 +5,7 @@ import { Hash, Mail, Shield, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { dadosConvidado } from "@/actions/convidados";
+import { usuarioLogado } from "@/actions/usuario";
 
 type InfoUsuarioProps = {
     convidadoId: string
@@ -13,7 +14,8 @@ type InfoUsuarioProps = {
 
 export async function InfoConvidado({ convidadoId, className }: InfoUsuarioProps) {
     const convidado = await dadosConvidado(convidadoId)
-    console.log("Usuario: ", convidado)
+    console.log("Convidado: ", convidado)
+    const usuario = await usuarioLogado()
 
     return (
         <div className={cn("flex items-center justify-center p-6", className)}>
@@ -45,10 +47,9 @@ export async function InfoConvidado({ convidadoId, className }: InfoUsuarioProps
                     </div>
                 </CardContent>
                 <CardFooter className="flex justify-between border-t pt-4">
-                    <Link href="/admin/usuarios">
+                    <Link href={usuario.role === "admin" ? "/admin/convidados" : "/recepcionista/convidados"}>
                         <Button variant="outline">Voltar</Button>
                     </Link>
-                    <Button>Editar</Button>
                 </CardFooter>
             </Card>
         </div>

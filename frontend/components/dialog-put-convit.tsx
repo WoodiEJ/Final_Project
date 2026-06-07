@@ -8,9 +8,9 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { atualizarConvidado } from "@/actions/convidados"
+import { usuarioLogado } from "@/actions/usuario"
 
 type FormData = {
-    id: string
     nome: string
     sobrenome: string
     cpf: string
@@ -26,9 +26,13 @@ export function DialogAtualizarConvidado({ id, dados }: { id: string, dados: For
 
     async function onSubmit(formData: FormData) {
         const result = await atualizarConvidado(id, formData)
+        const usuario = await usuarioLogado()
         if (result.success === false) {
             toast.error(result.mensagem)
             return
+        }
+        if (usuario.role !== "admin") {
+            return { success: false, mensagem: "Acesso negado." }
         }
         toast.success("Convidado atualizado.")
         router.refresh()

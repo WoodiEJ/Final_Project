@@ -40,7 +40,6 @@ export async function InfoUsuario({ usuarioId, className }: InfoUsuarioProps) {
                     <Link href="/admin/usuarios">
                         <Button variant="outline">Voltar</Button>
                     </Link>
-                    <Button>Editar</Button>
                 </CardFooter>
             </Card>
         </div>
