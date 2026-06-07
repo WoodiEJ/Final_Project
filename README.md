@@ -52,6 +52,9 @@ DATABASE_PORT=3306
 JWT_SECRET="sua-chave-secreta"
 ------------------------------------------------------------
 
+### Seeding
+Para popular o banco apenas digite "npm run seed"
+
 ### Funcionalidades
 - Autenticação
 - Gerenciamento de usuários --> Admin
