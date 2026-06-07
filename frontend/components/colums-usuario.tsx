@@ -1,15 +1,13 @@
 "use client"
 
-import { dadosUsuario, deletarUsuario } from "@/actions/usuario"
+import { deletarUsuario } from "@/actions/usuario"
 import { ColumnDef } from "@tanstack/react-table"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Button } from "./ui/button"
 import { DialogAtualizar } from "./dialog-form"
-import { LuEye, LuTrash, Trash } from "react-icons/lu"
-import Link from "next/link"
-import { GiEyestalk } from "react-icons/gi"
-import { IconName } from "react-icons/lu";
+import { LuEye, LuTrash } from "react-icons/lu"
+import { CriarUsuario } from "./dialog-create-user"
 
 
 type Usuarios = {
@@ -34,24 +32,17 @@ export function AcoesUsuario({ id }: { id: string }) {
         router.refresh()
     }
 
-    async function verUsuario(usuario: []) {
-        const result = await dadosUsuario(id)
-        if (result.success === false) {
-            toast.error(result.mensagem)
-            return
-        }
+    async function verUsuario() {
         router.push(`/admin/usuarios/${id}`)
-        const data = await result.json()
-        usuario = data.usuario
-    } 
+    }
 
     return (
         <div className="flex gap-2">
-            <Button size="sm" variant="outline"> 
+            <Button size="sm" variant="outline" onClick={verUsuario}>
                 <LuEye />
             </Button>
             <Button variant="destructive" size="sm" onClick={deletar}>
-                <LuTrash/>
+                <LuTrash />
                 Deletar
             </Button>
         </div>

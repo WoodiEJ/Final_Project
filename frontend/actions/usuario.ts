@@ -21,11 +21,14 @@ export async function dadosUsuario(id: string) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`    
+            "Authorization": `Bearer ${token}`
         }
     })
 
     const data = await result.json()
+    console.log("ID recebido:", id)
+    console.log("Status:", result.status)
+    console.log("Data completo:", data)
     return data.usuario
 }
 
@@ -45,13 +48,13 @@ export async function listarUsuarios() {
     return data.usuarios
 }
 
-export async function deletarUsuario(id: string) {
+export async function deletarUsuario(id?: string) {
     const cookieStore = await cookies()
     const role = cookieStore.get("role")?.value
     const token = cookieStore.get("token")?.value
 
     if (role !== "admin") {
-        return {success: false, mensagem: "Acesso negado."}
+        return { success: false, mensagem: "Acesso negado." }
     }
 
     const result = await fetch(`http://localhost:3001/usuarios/${id}`, {
@@ -86,7 +89,7 @@ export async function atualiarUsuario(id: string, formData: {
     }
 
     if (role !== "admin") {
-        return {success: false, mensagem: "Acesso negado."}
+        return { success: false, mensagem: "Acesso negado." }
     }
 
     const res = await fetch(`http://localhost:3001/usuarios/${id}`, {
@@ -100,7 +103,7 @@ export async function atualiarUsuario(id: string, formData: {
 
     const data = await res.json()
     if (!res.ok) {
-        return {success: false, mensagem: data.mensagem }
+        return { success: false, mensagem: data.mensagem }
     }
     return data.mensagem
 }
@@ -121,10 +124,6 @@ export async function criarUsuario(formData: {
         return { success: false, mensagem: result.error.message }
     }
 
-    if (role !== "admin") {
-        return { success: false, mensagem: "Acesso negado."}
-    }
-
     const res = await fetch("http://localhost:3001/usuarios/criar", {
         method: "POST",
         headers: {
@@ -136,7 +135,7 @@ export async function criarUsuario(formData: {
 
     const data = await res.json()
     if (!res.ok) {
-        return {success: false, mensagem: data.mensagem}
+        return { success: false, mensagem: data.mensagem }
     }
     return data.mensagem
 }

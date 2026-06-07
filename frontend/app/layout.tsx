@@ -6,7 +6,11 @@ import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
 
-const merriweather = Merriweather({ subsets: ['latin'], variable: '--font-serif' });
+const merriweather = Merriweather({
+  subsets: ['latin'],
+  weight: ["300", "400", "700", "900"],
+  variable: '--font-serif'
+})
 
 const fontSans = Geist({
   subsets: ["latin"],
