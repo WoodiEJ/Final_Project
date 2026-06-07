@@ -12,7 +12,7 @@ const navAdmin = [
 
 const navRecep = [
   { title: "Dashboard", url: "/recepcionista/dashboard", icon: "dashboard" },
-  { title: "Convidados", url: "/admin/convidados", icon: "convidados" },
+  { title: "Convidados", url: "/recepcionista/convidados", icon: "convidados" },
 ]
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
