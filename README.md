@@ -38,7 +38,7 @@ npm run dev
 
 ### Variaveis de ambiente
 
-## Backend (.env)
+### Backend (.env)
 crie o arquivo ".env" na raiz do backend
 Cole e mude essas informações conforme seu banco e sua preferencia:
 -------------------------------------------------------------
